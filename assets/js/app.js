@@ -6,7 +6,17 @@ let labI = document.getElementById("labincorrectas");
 
 let botMaster = document.getElementById("botMaster");
 
-let letras = ["m", "p", "l", "s", "t", "d", "n"];
+const urlParams = new URLSearchParams(window.location.search);
+const consonante = urlParams.get('letra');
+let letras;
+
+if(consonante){
+    letras = [consonante];
+}else{
+    letras = ["m", "p", "l", "s", "t", "d", "n", "f"];
+}
+
+
 let vocales = ["a", "e", "i", "o", "u"];
 let botones = [bot1, bot2, bot3];
 let audio;
