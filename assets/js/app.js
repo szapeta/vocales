@@ -6,7 +6,7 @@ let labI = document.getElementById("labincorrectas");
 
 let botMaster = document.getElementById("botMaster");
 
-let letras = ["m", "p", "l"];
+let letras = ["m", "p", "l", "s", "t", "d", "n"];
 let vocales = ["a", "e", "i", "o", "u"];
 let botones = [bot1, bot2, bot3];
 let audio;
