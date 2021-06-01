@@ -13,7 +13,7 @@ let letras;
 if(consonante){
     letras = [consonante];
 }else{
-    letras = ["m", "p", "l", "s", "t", "d", "n", "f"];
+    letras = ["m", "p", "l", "s", "t", "d", "n", "f", "v", "b", "r", "j", "ñ", "c"];
 }
 
 
