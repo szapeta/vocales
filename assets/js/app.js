@@ -3,17 +3,27 @@ let bot2 = document.getElementById("bot2");
 let bot3 = document.getElementById("bot3");
 let labC = document.getElementById("labcorrectas");
 let labI = document.getElementById("labincorrectas");
+let tiempo = document.getElementById('time');
 
 let botMaster = document.getElementById("botMaster");
 
 const urlParams = new URLSearchParams(window.location.search);
 const consonante = urlParams.get('letra');
+const tiempoParam = urlParams.get('seg');
+
 let letras;
+let tiempoMax;
 
 if(consonante){
     letras = [consonante];
 }else{
     letras = ["m", "p", "l", "s", "t", "d", "n", "f", "v", "b", "r", "j", "ñ", "c"];
+}
+
+if(tiempoParam){
+    tiempoMax = tiempoParam;
+}else{
+    tiempoMax = 300;
 }
 
 
@@ -26,7 +36,85 @@ let numIncorrectas = 0;
 let contador = 0;
 let silabaMaster = "";
 
+//
+
+class Timer {
+    constructor () {
+      this.isRunning = false;
+      this.startTime = 0;
+      this.overallTime = 0;
+    }
+  
+    _getTimeElapsedSinceLastStart () {
+      if (!this.startTime) {
+        return 0;
+      }
+    
+      return Date.now() - this.startTime;
+    }
+  
+    start () {
+      if (this.isRunning) {
+        return console.error('Timer is already running');
+      }
+  
+      this.isRunning = true;
+  
+      this.startTime = Date.now();
+    }
+  
+    stop () {
+      if (!this.isRunning) {
+        return console.error('Timer is already stopped');
+      }
+  
+      this.isRunning = false;
+  
+      this.overallTime = this.overallTime + this._getTimeElapsedSinceLastStart();
+    }
+  
+    reset () {
+      this.overallTime = 0;
+  
+      if (this.isRunning) {
+        this.startTime = Date.now();
+        return;
+      }
+  
+      this.startTime = 0;
+    }
+  
+    getTime () {
+      if (!this.startTime) {
+        return 0;
+      }
+  
+      if (this.isRunning) {
+        return this.overallTime + this._getTimeElapsedSinceLastStart();
+      }
+  
+      return this.overallTime;
+    }
+  }
+  
+  const timer = new Timer();
+  //timer.start();
+  setInterval(() => {
+    const timeInSeconds = Math.round(timer.getTime() / 1000);
+    document.getElementById('time').innerText = timeInSeconds;
+  }, 100)
+//
 const funcambiar = () =>{
+    
+    let tiemposeg = parseInt(tiempo.innerText)
+    let tiemposegMax = parseInt(tiempoMax);
+
+    if(tiemposeg >= tiemposegMax)
+    {   
+        timer.stop();
+        document.getElementById('time').innerText = tiempoMax
+        return;
+    }
 
     let i = 0;
     let max = botones.length;
@@ -51,6 +139,8 @@ const funcambiar = () =>{
 
     contador = contador +1;
 
+    
+    timer.start();
     while(i<max){
 
         let indiceConsonante = Math.floor(Math.random() * letras.length);
@@ -74,6 +164,7 @@ const buscarSilaba=(silaba)=>{
 const playVocal=()=>{
     audio.play();
 }
+
 
 bot1.addEventListener('click',funcambiar);
 bot2.addEventListener('click',funcambiar);
